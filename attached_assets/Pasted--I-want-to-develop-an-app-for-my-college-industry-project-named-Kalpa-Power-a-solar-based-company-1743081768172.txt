@@ -1,0 +1,66 @@
+"I want to develop an app for my college industry project named 'Kalpa Power,' a solar-based company, using Java and Kotlin. The app will be a QR code-based inventory and asset management system designed from scratch to manage solar products such as solar panels, UPS systems, inverters, batteries, and other solar-related equipment. The company currently has no existing system for tracking assets, so this app must establish a complete solution starting with QR code generation as the central feature, followed by real-time data management, technician access, and fault reporting. Below are the detailed requirements, with QR generation being the primary focus:
+
+QR Code Generation (Core Feature):
+The main purpose of this project is to create a robust QR code generation system from scratch, as Kalpa Power lacks any current method for uniquely identifying and tracking products.
+Develop a feature to generate a unique QR code for each product based on manufacturer-provided details.
+Input fields for product details must include:
+Product Name (e.g., Solar Panel 500W)
+Product Category (e.g., Panels, UPS, Batteries)
+Serial Number (unique identifier, auto-generated if not provided)
+Manufacturer Name
+Manufacturing Date
+Vendor Name
+Warranty Period (e.g., 5 years)
+Sell Date (date of sale to customer or distributor)
+Technical Specifications (e.g., wattage, voltage, dimensions)
+Additional Notes (optional field for batch number or custom info)
+The QR code must encode all these details in a structured format (e.g., JSON or delimited string) to ensure all data is retrievable upon scanning.
+Provide a preview of the generated QR code on-screen with a confirmation message (e.g., 'QR Code Generated for Serial Number: XYZ123').
+Emphasize ease of use for manufacturers to input data and generate QR codes quickly and accurately.
+QR Code Printing:
+Include a 'Print QR Code' button to enable manufacturers to print the QR code and attach it to each product.
+The printed output should feature the QR code image alongside a readable label with Product Name, Serial Number, and Manufacturing Date.
+Ensure compatibility with standard printers (e.g., via PDF download or direct print if supported by the platform).
+QR Code Scanning and Real-Time Data Access:
+Implement a QR code scanning feature using the device’s camera (mobile or webcam, depending on deployment).
+Upon scanning, display all encoded product details in a clear, organized layout, including:
+Product Name
+Product Category
+Serial Number
+Manufacturer Name
+Manufacturing Date
+Vendor Name
+Warranty Status (e.g., 'Active' or 'Expired,' calculated live based on Warranty Period and current date)
+Sell Date
+Technical Specifications
+Additional Notes
+Show the scan timestamp (e.g., 'Scanned on March 27, 2025, 14:30') and log it for tracking.
+Live Inventory Management:
+Build a database from scratch (e.g., SQLite or local JSON file if Replit constraints apply) to store all generated product records in real-time.
+Create a dashboard to view all registered assets, with filters for Product Category, Warranty Status, Sell Date, or Serial Number.
+Enable real-time updates: as new QR codes are generated, the inventory reflects the changes immediately.
+Allow searching for a product by Serial Number or scanning its QR code directly from the dashboard.
+Fault Reporting by Technicians:
+Add a feature for technicians to report faults after scanning a QR code.
+Include a form with fields like:
+Fault Description (e.g., 'Panel not charging')
+Date of Fault Detection
+Severity (e.g., Low, Medium, High)
+Technician Name
+Link fault reports to the specific product’s record and display them when the QR code is scanned later.
+Technical Requirements:
+Use Java for backend logic (e.g., database management, QR encoding) and Kotlin for the Android frontend (UI, QR scanning).
+Integrate a QR code generation library (e.g., ZXing) and a QR scanning library compatible with Android.
+Design an intuitive UI with navigation between 'Generate QR,' 'Scan QR,' 'View Inventory,' and 'Report Fault' sections.
+Ensure the app runs on Replit, either as a web app with mobile responsiveness or an Android app if Replit supports emulation.
+For web deployment, enable camera access via browser APIs for scanning.
+Use Case Context:
+The app serves two primary roles:
+Manufacturers: Generate and print QR codes to establish a tracking system from the ground up.
+Technicians: Scan QR codes during maintenance to access live data, verify warranty, and report faults.
+Example: A manufacturer generates a QR code for a solar panel on 'Jan 10, 2025.' A technician scans it on 'March 27, 2025,' sees it’s under warranty, and reports a fault like 'Low output voltage.'
+Additional Features:
+Validate inputs (e.g., unique Serial Numbers, valid dates).
+Provide an export option for inventory data as a CSV file.
+Ensure scalability for future features like cloud integration or advanced analytics.
+Since Kalpa Power has no existing system, this app must be a complete, standalone solution starting with QR code generation as the foundation, followed by live data management and technician support. Please create a fully functional app with Java and Kotlin source code, host it on Replit, and provide a link to the working app along with a brief usage guide."
