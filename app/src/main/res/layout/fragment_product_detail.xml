@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_product_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Details"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Product Name -->
+        <TextView
+            android:id="@+id/label_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Name:"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/title_detail"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_product_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            tools:text="Solar Panel 500W"
+            app:layout_constraintTop_toTopOf="@id/label_product_name"
+            app:layout_constraintStart_toEndOf="@id/label_product_name"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Category -->
+        <TextView
+            android:id="@+id/label_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_product_name"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="Solar Panel"
+            app:layout_constraintTop_toTopOf="@id/label_category"
+            app:layout_constraintStart_toEndOf="@id/label_category"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Serial Number -->
+        <TextView
+            android:id="@+id/label_serial_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Serial Number:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_category"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_serial_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="KP-20230427-AB12"
+            app:layout_constraintTop_toTopOf="@id/label_serial_number"
+            app:layout_constraintStart_toEndOf="@id/label_serial_number"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Manufacturer -->
+        <TextView
+            android:id="@+id/label_manufacturer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manufacturer:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_serial_number"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_manufacturer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="SunTech Industries"
+            app:layout_constraintTop_toTopOf="@id/label_manufacturer"
+            app:layout_constraintStart_toEndOf="@id/label_manufacturer"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Manufacturing Date -->
+        <TextView
+            android:id="@+id/label_manufacturing_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manufacturing Date:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_manufacturer"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_manufacturing_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="2023-04-15"
+            app:layout_constraintTop_toTopOf="@id/label_manufacturing_date"
+            app:layout_constraintStart_toEndOf="@id/label_manufacturing_date"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Vendor -->
+        <TextView
+            android:id="@+id/label_vendor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vendor:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_manufacturing_date"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_vendor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="Global Solar Suppliers"
+            app:layout_constraintTop_toTopOf="@id/label_vendor"
+            app:layout_constraintStart_toEndOf="@id/label_vendor"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Warranty -->
+        <TextView
+            android:id="@+id/label_warranty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Warranty:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_vendor"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_warranty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="5 years - Active (Until 2028-04-15)"
+            app:layout_constraintTop_toTopOf="@id/label_warranty"
+            app:layout_constraintStart_toEndOf="@id/label_warranty"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Sell Date -->
+        <TextView
+            android:id="@+id/label_sell_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sell Date:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_warranty"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_sell_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="2023-05-20"
+            app:layout_constraintTop_toTopOf="@id/label_sell_date"
+            app:layout_constraintStart_toEndOf="@id/label_sell_date"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Technical Specifications -->
+        <TextView
+            android:id="@+id/label_technical_specs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Technical Specifications:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_sell_date"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_technical_specs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="Power: 500W\nVoltage: 24V\nDimensions: 1956 x 992 x 40mm\nWeight: 22kg"
+            app:layout_constraintTop_toBottomOf="@id/label_technical_specs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Additional Notes -->
+        <TextView
+            android:id="@+id/label_additional_notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Additional Notes:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_technical_specs"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_additional_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="Batch number: BN-2023-045"
+            app:layout_constraintTop_toBottomOf="@id/label_additional_notes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Last Scanned -->
+        <TextView
+            android:id="@+id/text_last_scanned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textStyle="italic"
+            tools:text="Last scanned: 2023-06-15 14:30:22"
+            app:layout_constraintTop_toBottomOf="@id/text_additional_notes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/text_last_scanned"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Fault History Section -->
+        <TextView
+            android:id="@+id/title_fault_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fault History"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_faults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/title_fault_history"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_fault" />
+
+        <TextView
+            android:id="@+id/text_no_faults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No fault reports found"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/title_fault_history"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Report Fault Button -->
+        <Button
+            android:id="@+id/button_report_fault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Report a Fault"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/recycler_faults"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Space at the bottom -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            app:layout_constraintTop_toBottomOf="@id/button_report_fault"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Error Message (shown when product not found) -->
+    <TextView
+        android:id="@+id/text_error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product not found"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</ScrollView>

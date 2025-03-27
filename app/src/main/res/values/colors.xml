@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1976D2</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorAccent">#03A9F4</color>
+    
+    <!-- Warranty Status Colors -->
+    <color name="warranty_valid">#4CAF50</color>
+    <color name="warranty_expired">#F44336</color>
+    
+    <!-- Severity Colors -->
+    <color name="severity_low">#4CAF50</color>
+    <color name="severity_medium">#FF9800</color>
+    <color name="severity_high">#F44336</color>
+</resources>

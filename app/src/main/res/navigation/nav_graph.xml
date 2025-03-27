@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_dashboard">
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.kalpapower.qrmanager.ui.dashboard.DashboardFragment"
+        android:label="Inventory Dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_productDetail"
+            app:destination="@id/navigation_product_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_generate"
+        android:name="com.kalpapower.qrmanager.ui.generate.GenerateQRFragment"
+        android:label="Generate QR Code"
+        tools:layout="@layout/fragment_generate_qr" />
+
+    <fragment
+        android:id="@+id/navigation_scan"
+        android:name="com.kalpapower.qrmanager.ui.scan.ScanQRFragment"
+        android:label="Scan QR Code"
+        tools:layout="@layout/fragment_scan_qr">
+        <action
+            android:id="@+id/action_scan_to_productDetail"
+            app:destination="@id/navigation_product_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_product_detail"
+        android:name="com.kalpapower.qrmanager.ui.details.ProductDetailFragment"
+        android:label="Product Details"
+        tools:layout="@layout/fragment_product_detail">
+        <argument
+            android:name="serialNumber"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_productDetail_to_reportFault"
+            app:destination="@id/navigation_report_fault" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_report_fault"
+        android:name="com.kalpapower.qrmanager.ui.fault.ReportFaultFragment"
+        android:label="Report Fault"
+        tools:layout="@layout/fragment_report_fault">
+        <argument
+            android:name="productId"
+            app:argType="long" />
+    </fragment>
+</navigation>
