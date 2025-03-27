@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
+    <!-- Cache directory for temporary files -->
     <cache-path name="shared_qr_codes" path="." />
+    
+    <!-- Internal app storage -->
+    <files-path name="internal_files" path="." />
+    
+    <!-- External storage -->
     <external-path name="external_files" path="." />
+    
+    <!-- External app-specific files -->
+    <external-files-path name="external_app_files" path="." />
+    
+    <!-- External app-specific documents -->
+    <external-files-path name="documents" path="Documents/" />
+    
+    <!-- External app-specific exports folder -->
+    <external-files-path name="exports" path="Documents/exports/" />
 </paths>
