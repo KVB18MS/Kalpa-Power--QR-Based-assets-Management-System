@@ -57,30 +57,87 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Add a new product to the database
+     * Add a new product to the database with transaction support
+     * @param product The product to add
+     * @return The row ID of the newly inserted product, or -1 if an error occurred
+     * @throws IllegalArgumentException if the product data is invalid
      */
     public long addProduct(Product product) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, product.getProductName());
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_CATEGORY, product.getProductCategory());
-        values.put(ProductContract.ProductEntry.COLUMN_SERIAL_NUMBER, product.getSerialNumber());
-        values.put(ProductContract.ProductEntry.COLUMN_MANUFACTURER_NAME, product.getManufacturerName());
-        values.put(ProductContract.ProductEntry.COLUMN_MANUFACTURING_DATE, DATE_FORMAT.format(product.getManufacturingDate()));
-        values.put(ProductContract.ProductEntry.COLUMN_VENDOR_NAME, product.getVendorName());
-        values.put(ProductContract.ProductEntry.COLUMN_WARRANTY_PERIOD, product.getWarrantyPeriod());
-        
-        if (product.getSellDate() != null) {
-            values.put(ProductContract.ProductEntry.COLUMN_SELL_DATE, DATE_FORMAT.format(product.getSellDate()));
+        // Validate product data
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null");
         }
         
-        values.put(ProductContract.ProductEntry.COLUMN_TECHNICAL_SPECS, product.getTechnicalSpecs());
-        values.put(ProductContract.ProductEntry.COLUMN_ADDITIONAL_NOTES, product.getAdditionalNotes());
-        values.put(ProductContract.ProductEntry.COLUMN_QR_CODE_CREATED_DATE, TIMESTAMP_FORMAT.format(new Date()));
-
-        long id = db.insert(ProductContract.ProductEntry.TABLE_NAME, null, values);
-        db.close();
+        if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty");
+        }
+        
+        if (product.getSerialNumber() == null || product.getSerialNumber().trim().isEmpty()) {
+            throw new IllegalArgumentException("Serial number cannot be empty");
+        }
+        
+        if (product.getManufacturingDate() == null) {
+            throw new IllegalArgumentException("Manufacturing date cannot be null");
+        }
+        
+        // Check if serial number already exists
+        Product existingProduct = getProductBySerialNumber(product.getSerialNumber());
+        if (existingProduct != null) {
+            throw new IllegalArgumentException("Product with serial number " + 
+                    product.getSerialNumber() + " already exists");
+        }
+        
+        SQLiteDatabase db = this.getWritableDatabase();
+        long id = -1;
+        
+        // Use a transaction to ensure data integrity
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            
+            // Required fields
+            values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, product.getProductName());
+            values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_CATEGORY, product.getProductCategory());
+            values.put(ProductContract.ProductEntry.COLUMN_SERIAL_NUMBER, product.getSerialNumber());
+            values.put(ProductContract.ProductEntry.COLUMN_MANUFACTURER_NAME, product.getManufacturerName());
+            values.put(ProductContract.ProductEntry.COLUMN_MANUFACTURING_DATE, DATE_FORMAT.format(product.getManufacturingDate()));
+            values.put(ProductContract.ProductEntry.COLUMN_VENDOR_NAME, product.getVendorName());
+            values.put(ProductContract.ProductEntry.COLUMN_WARRANTY_PERIOD, product.getWarrantyPeriod());
+            
+            // Optional fields
+            if (product.getSellDate() != null) {
+                values.put(ProductContract.ProductEntry.COLUMN_SELL_DATE, DATE_FORMAT.format(product.getSellDate()));
+            }
+            
+            values.put(ProductContract.ProductEntry.COLUMN_TECHNICAL_SPECS, product.getTechnicalSpecs());
+            values.put(ProductContract.ProductEntry.COLUMN_ADDITIONAL_NOTES, product.getAdditionalNotes());
+            
+            // Add creation timestamp if not already set
+            if (product.getQrCodeCreatedDate() == null) {
+                values.put(ProductContract.ProductEntry.COLUMN_QR_CODE_CREATED_DATE, 
+                        TIMESTAMP_FORMAT.format(new Date()));
+            } else {
+                values.put(ProductContract.ProductEntry.COLUMN_QR_CODE_CREATED_DATE, 
+                        TIMESTAMP_FORMAT.format(product.getQrCodeCreatedDate()));
+            }
+            
+            // Insert the product
+            id = db.insertOrThrow(ProductContract.ProductEntry.TABLE_NAME, null, values);
+            
+            // If successful, mark the transaction as successful
+            if (id != -1) {
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Error adding product to database", e);
+            // Let the caller handle the exception
+            throw e;
+        } finally {
+            // End the transaction
+            db.endTransaction();
+            db.close();
+        }
+        
         return id;
     }
 
@@ -190,40 +247,130 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Update product's last scanned timestamp
+     * Update product's last scanned timestamp with transaction support
+     * @param serialNumber The serial number of the product to update
+     * @return true if the update was successful, false otherwise
      */
-    public void updateProductLastScanned(String serialNumber) {
+    public boolean updateProductLastScanned(String serialNumber) {
+        // Validate input
+        if (serialNumber == null || serialNumber.trim().isEmpty()) {
+            Log.e("DatabaseHelper", "Cannot update last scanned: Serial number is empty");
+            return false;
+        }
+        
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+        boolean success = false;
         
-        values.put(ProductContract.ProductEntry.COLUMN_LAST_SCANNED, TIMESTAMP_FORMAT.format(new Date()));
+        // Use a transaction to ensure data integrity
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(ProductContract.ProductEntry.COLUMN_LAST_SCANNED, TIMESTAMP_FORMAT.format(new Date()));
+            
+            int rowsAffected = db.update(
+                    ProductContract.ProductEntry.TABLE_NAME,
+                    values,
+                    ProductContract.ProductEntry.COLUMN_SERIAL_NUMBER + " = ?",
+                    new String[]{serialNumber}
+            );
+            
+            // If at least one row was updated, mark as successful
+            if (rowsAffected > 0) {
+                db.setTransactionSuccessful();
+                success = true;
+                Log.d("DatabaseHelper", "Updated last scanned timestamp for product: " + serialNumber);
+            } else {
+                Log.w("DatabaseHelper", "No product found with serial number: " + serialNumber);
+            }
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Error updating last scanned timestamp", e);
+        } finally {
+            // End the transaction
+            db.endTransaction();
+            db.close();
+        }
         
-        db.update(
-                ProductContract.ProductEntry.TABLE_NAME,
-                values,
-                ProductContract.ProductEntry.COLUMN_SERIAL_NUMBER + " = ?",
-                new String[]{serialNumber}
-        );
-        
-        db.close();
+        return success;
     }
 
     /**
-     * Add a fault report to the database
+     * Add a fault report to the database with transaction support
+     * @param fault The fault report to add
+     * @return The row ID of the newly inserted fault, or -1 if an error occurred
+     * @throws IllegalArgumentException if the fault data is invalid
      */
     public long addFault(Fault fault) {
+        // Validate fault data
+        if (fault == null) {
+            throw new IllegalArgumentException("Fault cannot be null");
+        }
+        
+        if (fault.getProductId() <= 0) {
+            throw new IllegalArgumentException("Invalid product ID");
+        }
+        
+        if (fault.getFaultDescription() == null || fault.getFaultDescription().trim().isEmpty()) {
+            throw new IllegalArgumentException("Fault description cannot be empty");
+        }
+        
+        if (fault.getFaultDate() == null) {
+            throw new IllegalArgumentException("Fault date cannot be null");
+        }
+        
+        if (fault.getSeverity() == null || fault.getSeverity().trim().isEmpty()) {
+            throw new IllegalArgumentException("Severity cannot be empty");
+        }
+        
+        if (fault.getTechnicianName() == null || fault.getTechnicianName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Technician name cannot be empty");
+        }
+        
+        // Check if the product exists
+        Product product = getProductById(fault.getProductId());
+        if (product == null) {
+            throw new IllegalArgumentException("Product with ID " + fault.getProductId() + " not found");
+        }
+        
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+        long id = -1;
         
-        values.put(FaultContract.FaultEntry.COLUMN_PRODUCT_ID, fault.getProductId());
-        values.put(FaultContract.FaultEntry.COLUMN_FAULT_DESCRIPTION, fault.getFaultDescription());
-        values.put(FaultContract.FaultEntry.COLUMN_FAULT_DATE, DATE_FORMAT.format(fault.getFaultDate()));
-        values.put(FaultContract.FaultEntry.COLUMN_SEVERITY, fault.getSeverity());
-        values.put(FaultContract.FaultEntry.COLUMN_TECHNICIAN_NAME, fault.getTechnicianName());
-        values.put(FaultContract.FaultEntry.COLUMN_REPORT_DATE, TIMESTAMP_FORMAT.format(new Date()));
+        // Use a transaction to ensure data integrity
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            
+            values.put(FaultContract.FaultEntry.COLUMN_PRODUCT_ID, fault.getProductId());
+            values.put(FaultContract.FaultEntry.COLUMN_FAULT_DESCRIPTION, fault.getFaultDescription());
+            values.put(FaultContract.FaultEntry.COLUMN_FAULT_DATE, DATE_FORMAT.format(fault.getFaultDate()));
+            values.put(FaultContract.FaultEntry.COLUMN_SEVERITY, fault.getSeverity());
+            values.put(FaultContract.FaultEntry.COLUMN_TECHNICIAN_NAME, fault.getTechnicianName());
+            
+            // Add report timestamp if not already set
+            if (fault.getReportDate() == null) {
+                values.put(FaultContract.FaultEntry.COLUMN_REPORT_DATE, TIMESTAMP_FORMAT.format(new Date()));
+            } else {
+                values.put(FaultContract.FaultEntry.COLUMN_REPORT_DATE, 
+                        TIMESTAMP_FORMAT.format(fault.getReportDate()));
+            }
+            
+            // Insert the fault
+            id = db.insertOrThrow(FaultContract.FaultEntry.TABLE_NAME, null, values);
+            
+            // If successful, mark the transaction as successful
+            if (id != -1) {
+                db.setTransactionSuccessful();
+                Log.i("DatabaseHelper", "Added fault report for product " + product.getSerialNumber());
+            }
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Error adding fault to database", e);
+            // Let the caller handle the exception
+            throw e;
+        } finally {
+            // End the transaction
+            db.endTransaction();
+            db.close();
+        }
         
-        long id = db.insert(FaultContract.FaultEntry.TABLE_NAME, null, values);
-        db.close();
         return id;
     }
 
