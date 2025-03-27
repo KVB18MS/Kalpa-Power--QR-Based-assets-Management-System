@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalpa Power App Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .icon-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .icon-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .icon-container {
+            text-align: center;
+            margin: 10px;
+        }
+        .icon-container img {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: white;
+        }
+        .icon-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .notes {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        h2 {
+            color: #388E3C;
+            margin-top: 40px;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kalpa Power App Icons</h1>
+    
+    <div class="icon-section">
+        <h2>Standard Icons (ic_launcher.png)</h2>
+        <p>These icons are used for the main app launcher icon on Android devices.</p>
+        
+        <div class="icon-row">
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-mdpi/ic_launcher.png" alt="mdpi icon">
+                <div class="icon-name">mdpi (48x48)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-hdpi/ic_launcher.png" alt="hdpi icon">
+                <div class="icon-name">hdpi (72x72)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-xhdpi/ic_launcher.png" alt="xhdpi icon">
+                <div class="icon-name">xhdpi (96x96)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-xxhdpi/ic_launcher.png" alt="xxhdpi icon">
+                <div class="icon-name">xxhdpi (144x144)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="xxxhdpi icon">
+                <div class="icon-name">xxxhdpi (192x192)</div>
+            </div>
+        </div>
+        
+        <h2>Round Icons (ic_launcher_round.png)</h2>
+        <p>These round icons are used on devices that support circular launcher icons.</p>
+        
+        <div class="icon-row">
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-mdpi/ic_launcher_round.png" alt="mdpi round icon">
+                <div class="icon-name">mdpi (48x48)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-hdpi/ic_launcher_round.png" alt="hdpi round icon">
+                <div class="icon-name">hdpi (72x72)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" alt="xhdpi round icon">
+                <div class="icon-name">xhdpi (96x96)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" alt="xxhdpi round icon">
+                <div class="icon-name">xxhdpi (144x144)</div>
+            </div>
+            <div class="icon-container">
+                <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="xxxhdpi round icon">
+                <div class="icon-name">xxxhdpi (192x192)</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="icon-section">
+        <h2>Design Elements</h2>
+        <p>The icon design incorporates several elements that represent the Kalpa Power brand and app functionality:</p>
+        <ul>
+            <li><strong>Green Background (#4CAF50):</strong> Represents the eco-friendly, sustainable nature of solar power</li>
+            <li><strong>Solar Panel:</strong> The main design element showcasing the company's solar focus</li>
+            <li><strong>Sun Rays:</strong> Symbolizes solar energy and power generation</li>
+            <li><strong>QR Code Element:</strong> Represents the app's core inventory management functionality</li>
+        </ul>
+        
+        <h2>Source Files</h2>
+        <p>The original SVG source files are included in the zip package for future modifications:</p>
+        <ul>
+            <li><code>icon_template.svg</code> - Standard icon template</li>
+            <li><code>icon_template_round.svg</code> - Round icon template</li>
+        </ul>
+    </div>
+    
+    <div class="notes">
+        <h2>Implementation Notes</h2>
+        <p>To use these icons in your Android project:</p>
+        <ol>
+            <li>Copy the mipmap folders to your project's res directory</li>
+            <li>Ensure your AndroidManifest.xml has the proper references:</li>
+        </ol>
+        <pre><code>android:icon="@mipmap/ic_launcher"
+android:roundIcon="@mipmap/ic_launcher_round"</code></pre>
+        <p>These icons follow Android's recommended sizing guidelines for launcher icons across all standard density buckets.</p>
+    </div>
+</body>
+</html>

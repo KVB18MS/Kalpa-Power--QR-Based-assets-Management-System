@@ -1,5 +1,7 @@
 # Kalpa Power QR Manager
 
+<img src="generated-icon.png" alt="Kalpa Power App Icon" width="100" align="right"/>
+
 ## Overview
 Kalpa Power QR Manager is an Android application developed for Kalpa Power, a solar-based company, to manage their inventory of solar products using QR codes. The app allows for QR code generation, scanning, product management, and fault reporting.
 
@@ -32,6 +34,11 @@ Kalpa Power QR Manager is an Android application developed for Kalpa Power, a so
    - Added CSV export functionality for inventory data
    - Implemented file sharing capabilities for exported data
    - Added proper CSV encoding for all special characters
+
+5. **Custom App Icons**:
+   - Added custom green solar-themed launcher icons for all density buckets
+   - Implemented both regular square and round icon versions
+   - Designed with solar panel imagery and QR code elements representing app functionality
 
 ## Technology Stack
 - **Languages**: Java and Kotlin
