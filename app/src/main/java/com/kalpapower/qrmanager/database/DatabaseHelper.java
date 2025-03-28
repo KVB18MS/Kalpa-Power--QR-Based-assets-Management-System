@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.kalpapower.qrmanager.database.ProductContract;
+import com.kalpapower.qrmanager.database.FaultContract;
 import com.kalpapower.qrmanager.model.Fault;
 import com.kalpapower.qrmanager.model.Product;
 

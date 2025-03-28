@@ -70,7 +70,7 @@ Kalpa Power QR Manager is an Android application developed for Kalpa Power, a so
 ## Setup and Build Instructions
 
 ### Prerequisites
-- Android Studio (latest stable version recommended)
+- Android Studio Ladybug version (2023.3.1 or later)
 - JDK 11 or higher
 - Android SDK (minimum API level 24 / Android 7.0)
 
@@ -80,42 +80,75 @@ git clone <repository-url>
 cd KalpaPowerQRManager
 ```
 
-### Building the Project
+### Building the Project in Android Studio Ladybug
 
 1. **Open the project in Android Studio**
-   - Start Android Studio
+   - Start Android Studio Ladybug
    - Select "Open an existing Android Studio project"
    - Navigate to the cloned repository and select it
 
 2. **Sync Gradle Files**
    - Android Studio will automatically try to sync the project with Gradle files
-   - If this doesn't happen automatically, click on "Sync Project with Gradle Files" button
+   - If this doesn't happen automatically, click on "Sync Project with Gradle Files" button in the toolbar
+   - If you see a message about migrating to Gradle 8, click "Don't remind me again for this project"
 
-3. **Build the Project**
+3. **Enable AndroidX Libraries**
+   - Verify gradle.properties contains the following lines:
+     ```
+     android.useAndroidX=true
+     android.enableJetifier=true
+     ```
+   - These ensure proper migration to AndroidX libraries
+
+4. **Check Safe Args Plugin Configuration**
+   - Ensure the top-level build.gradle has the navigation-safe-args-gradle-plugin dependency
+   - Verify that the app/build.gradle applies the 'androidx.navigation.safeargs' plugin
+
+5. **Build the Project**
    - Select "Build > Make Project" from the menu
    - Or use the keyboard shortcut (Ctrl+F9 on Windows/Linux, Cmd+F9 on Mac)
 
-4. **Running on an Emulator or Physical Device**
+6. **Running on an Emulator or Physical Device**
    - Connect your Android device via USB with USB debugging enabled
    - Or set up an Android Virtual Device (AVD) using the AVD Manager
    - Select "Run > Run 'app'" from the menu
+
+### Ladybug-Specific Adjustments
+
+If you encounter issues with Android Studio Ladybug version, try these additional steps:
+
+1. **Update Kotlin Version (if needed)**
+   - If you see Kotlin version incompatibility errors, go to:
+   - "Tools > Kotlin > Configure Kotlin Plugin Updates"
+   - Select the latest stable version and apply
+
+2. **Update Build Tools**
+   - Go to "Tools > SDK Manager > SDK Tools" tab
+   - Make sure "Android SDK Build-Tools" is updated to the latest version
+
+3. **Invalidate Caches/Restart**
+   - If you still have issues, go to "File > Invalidate Caches / Restart"
+   - Select "Invalidate and Restart"
 
 ### Troubleshooting Common Issues
 
 1. **Gradle Sync Failed**
    - Check your internet connection
-   - Update Android Studio to the latest version
    - Make sure you have the required SDK components installed
+   - Try clicking on specific error messages in the "Build" tab for more details
+   - Try "File > Sync Project with Gradle Files" again
 
 2. **Build Failed**
    - Look at the error messages in the "Build" tab
-   - Ensure all dependencies are available
-   - Check if you have the proper JDK installation
+   - If you see "Log class not found" errors, verify android.util.Log is properly imported
+   - If you see "Contract class not found" errors, check for proper imports of ProductContract and FaultContract
+   - Ensure all dependencies are available and properly synchronized
 
 3. **App Crashes During Launch**
    - Check Logcat for detailed error messages
    - Verify that all required permissions are properly granted
-   - Ensure the device meets minimum API level requirements
+   - Ensure the device meets minimum API level requirements (24+)
+   - Check for database initialization errors in the logs
 
 ## Usage Guide
 
@@ -192,6 +225,37 @@ The CSV export includes the following fields:
 - QR Code Created Date
 - Last Scanned Date
 - Warranty Status (Active/Expired)
+
+## App Icons
+
+The application uses custom-designed icons that represent Kalpa Power's solar focus:
+
+### Icon Design Elements
+- **Green Background (#4CAF50)**: Represents the eco-friendly, sustainable nature of solar power
+- **Solar Panel Graphic**: The main design element showcasing the company's solar focus
+- **Sun Rays**: Symbolizes solar energy and power generation
+- **QR Code Element**: Represents the app's core inventory management functionality
+
+### Icon Resources
+- All icon densities are included for both standard square and round icons:
+  - mdpi (48x48)
+  - hdpi (72x72)
+  - xhdpi (96x96)
+  - xxhdpi (144x144)
+  - xxxhdpi (192x192)
+
+### Icon Source Files
+The following source files are included for future modifications:
+- `icon_template.svg`: Standard icon template (square)
+- `icon_template_round.svg`: Round icon template
+- `kalpa_power_icons.zip`: Complete icon package with all densities
+
+### Implementation
+The icons are properly referenced in the AndroidManifest.xml file:
+```xml
+android:icon="@mipmap/ic_launcher"
+android:roundIcon="@mipmap/ic_launcher_round"
+```
 
 ## Contributing
 1. Fork the repository
