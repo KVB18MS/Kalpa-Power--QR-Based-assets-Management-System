@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kalpapower.qrmanager">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Permissions -->
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
-                     android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
@@ -17,7 +17,7 @@
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
 
         <!-- Main Activity -->
-        <activity 
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -29,7 +29,7 @@
         <!-- FileProvider for sharing QR codes -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.kalpapower.qrmanager.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -17,10 +17,10 @@ import com.kalpapower.qrmanager.R
 import com.kalpapower.qrmanager.adapter.ProductAdapter
 import com.kalpapower.qrmanager.database.DatabaseHelper
 import com.kalpapower.qrmanager.model.Product
-import java.util.HashSet
+import java.util.*
 
 /**
- * Dashboard fragment that displays the inventory of solar products
+ * Dashboard fragment that displays the inventory of solar products.
  */
 class DashboardFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -29,146 +29,147 @@ class DashboardFragment : Fragment() {
     private lateinit var emptyView: TextView
     private lateinit var searchView: SearchView
     private lateinit var categorySpinner: Spinner
-    
-    private var allProducts: List<Product> = ArrayList()
-    
+
+    private var allProducts: List<Product> = emptyList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        
+
         // Initialize views
         recyclerView = view.findViewById(R.id.recycler_products)
         emptyView = view.findViewById(R.id.empty_view)
         searchView = view.findViewById(R.id.search_view)
         categorySpinner = view.findViewById(R.id.spinner_category)
-        
+
         return view
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         // Initialize database helper
         databaseHelper = DatabaseHelper.getInstance(requireContext())
-        
+
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = ProductAdapter { product ->
-            // Navigate to product details on item click
-            val action = DashboardFragmentDirections.actionDashboardToProductDetail(product.serialNumber)
-            findNavController().navigate(action)
+            // Create a Bundle to pass the product serial number
+            val bundle = Bundle().apply {
+                putString("serialNumber", product.serialNumber)
+            }
+            // Navigate using the action defined in nav_graph.xml.
+            // Ensure that your navigation graph defines an action with the ID action_dashboard_to_productDetail.
+            findNavController().navigate(R.id.action_dashboard_to_productDetail, bundle)
         }
         recyclerView.adapter = adapter
-        
-        // Populate data
+
+        // Load products and set up filters
         loadProducts()
-        
-        // Set up search functionality
         setupSearch()
-        
-        // Set up category filter
         setupCategoryFilter()
     }
-    
+
     private fun loadProducts() {
         allProducts = databaseHelper.allProducts
         adapter.setProducts(allProducts)
-        
-        // Show empty view if no products
+
+        // Show empty view if no products are available
         if (allProducts.isEmpty()) {
             recyclerView.visibility = View.GONE
             emptyView.visibility = View.VISIBLE
+            emptyView.text = getString(R.string.no_products_available)
         } else {
             recyclerView.visibility = View.VISIBLE
             emptyView.visibility = View.GONE
         }
     }
-    
+
     private fun setupSearch() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 filterProducts(query, getCategoryFilter())
                 return true
             }
-            
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 filterProducts(newText, getCategoryFilter())
                 return true
             }
         })
     }
-    
+
     private fun setupCategoryFilter() {
-        // Get unique categories from products
         val categories = HashSet<String>()
-        categories.add("All Categories") // Default option
-        
+        categories.add(getString(R.string.all_categories)) // Default option
+
         for (product in allProducts) {
-            if (product.productCategory != null && product.productCategory.isNotEmpty()) {
-                categories.add(product.productCategory)
+            product.productCategory?.let { category ->
+                if (category.isNotEmpty()) {
+                    categories.add(category)
+                }
             }
         }
-        
-        // Create adapter for spinner
+
         val categoriesArray = categories.toTypedArray()
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoriesArray)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = spinnerAdapter
-        
-        // Set listener
+
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 filterProducts(searchView.query.toString(), getCategoryFilter())
             }
-            
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
+                // Do nothing.
             }
         }
     }
-    
+
     private fun getCategoryFilter(): String? {
         val selectedCategory = categorySpinner.selectedItem.toString()
-        return if (selectedCategory == "All Categories") null else selectedCategory
+        return if (selectedCategory == getString(R.string.all_categories)) null else selectedCategory
     }
-    
+
     private fun filterProducts(searchQuery: String?, categoryFilter: String?) {
         var filteredList = allProducts
-        
+
         // Apply category filter
-        if (categoryFilter != null) {
-            filteredList = filteredList.filter { it.productCategory == categoryFilter }
-        }
-        
-        // Apply search filter
-        if (!searchQuery.isNullOrEmpty()) {
-            val query = searchQuery.toLowerCase()
-            filteredList = filteredList.filter {
-                it.productName.toLowerCase().contains(query) ||
-                it.serialNumber.toLowerCase().contains(query) ||
-                it.manufacturerName.toLowerCase().contains(query)
+        categoryFilter?.let { filter ->
+            filteredList = filteredList.filter { product ->
+                product.productCategory == filter
             }
         }
-        
+
+        // Apply search filter
+        if (!searchQuery.isNullOrEmpty()) {
+            val query = searchQuery.lowercase(Locale.getDefault())
+            filteredList = filteredList.filter { product ->
+                (product.productName?.lowercase(Locale.getDefault())?.contains(query) == true ||
+                        product.serialNumber?.lowercase(Locale.getDefault())?.contains(query) == true ||
+                        product.manufacturerName?.lowercase(Locale.getDefault())?.contains(query) == true)
+            }
+        }
+
         adapter.setProducts(filteredList)
-        
+
         // Update empty view visibility
         if (filteredList.isEmpty()) {
             recyclerView.visibility = View.GONE
             emptyView.visibility = View.VISIBLE
-            emptyView.text = "No products found matching your search"
+            emptyView.text = getString(R.string.no_matching_products)
         } else {
             recyclerView.visibility = View.VISIBLE
             emptyView.visibility = View.GONE
         }
     }
-    
+
     override fun onResume() {
         super.onResume()
-        // Reload products when fragment resumes
         loadProducts()
         setupCategoryFilter()
     }

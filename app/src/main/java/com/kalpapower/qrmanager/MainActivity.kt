@@ -12,21 +12,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
-        // Set up navigation controller with the nav host fragment
+
+        // Set up navigation controller with the NavHostFragment
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        
-        // Connect bottom navigation with the navigation controller
+
+        // Connect BottomNavigationView with the navigation controller
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigation.setupWithNavController(navController)
     }
-    
+
     // Handle back button press with the Navigation component
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
